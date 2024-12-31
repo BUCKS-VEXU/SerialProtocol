@@ -98,10 +98,6 @@ typedef union {
     uint8_t value;
 } sfe_otos_status_t;
 
-#else
-
-#include "SparkFun_Qwiic_OTOS_Arduino_Library.h"
-
 #endif // OTOS_DEFINITIONS_PRESENT
 
 #endif // PROTOCOL_DEFINITIONS_HPP

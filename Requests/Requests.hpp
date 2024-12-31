@@ -11,6 +11,10 @@
 
 #include "../ProtocolDefinitions.hpp"
 
+#ifdef OTOS_DEFINITIONS_PRESENT
+#include "SparkFun_Qwiic_OTOS_Arduino_Library.h"
+#endif // OTOS_DEFINITIONS_PRESENT
+
 class PingRequest : public Request {
   private:
     // Request-specific parameters (input or response fields)

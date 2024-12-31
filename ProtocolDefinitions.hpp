@@ -9,6 +9,7 @@
 #define END_MARKER 0x7F
 
 enum RPCCommandID {
+    PING = 0x00,
     SERIAL_PRINT_PAYLOAD = 0xFF,
 
     IS_CONNECTED = 0x01,
@@ -88,6 +89,7 @@ typedef union {
     uint8_t value;
 } sfe_otos_status_t;
 
+/// @brief 2D pose structure, compatible with Lem and OTOS
 struct pose2d_t {
     float x;
     float y;

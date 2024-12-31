@@ -7,8 +7,38 @@
 #include <cstdint>
 #include <stdexcept>
 #include <vector>
+#include <string.h>
 
 #include "../ProtocolDefinitions.hpp"
+
+class PingRequest : public Request {
+  private:
+    // Request-specific parameters (input or response fields)
+    uint8_t pingByte;
+
+    // Response fields
+    uint8_t pingResponse;
+
+  public:
+    PingRequest(uint8_t uuid, uint8_t pingByte) :
+        Request(uuid), pingByte(pingByte), pingResponse(0) {}
+
+    uint8_t getCommandID() const override { return PING; }
+
+    std::vector<uint8_t> serializeRequest() const override {
+        return createSerializedMessage(PING, &pingByte, 1);
+    }
+
+    void deserializeResponse(const std::vector<uint8_t> &data) override {
+        if (data.size() < sizeof(uint8_t))
+            throw std::runtime_error("Invalid payload length");
+
+        // Deserialize the ping response
+        pingResponse = data[0];
+    }
+
+    uint8_t getPingResponse() const { return pingResponse; }
+};
 
 class SerialPrintPayloadRequest : public Request {
   private:
@@ -275,8 +305,8 @@ class GetPoseRequest : public Request {
             throw std::runtime_error("Invalid payload length");
 
         // Deserialize error and pose from the payload
-        std::memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
-        std::memcpy(&pose, &data[4], sizeof(pose2d_t));
+        memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
+        memcpy(&pose, &data[4], sizeof(pose2d_t));
     }
 
     sfeTkError_t getError() const { return errorResponse; }
@@ -306,8 +336,8 @@ class GetPoseStdRequest : public Request {
             throw std::runtime_error("Invalid payload length");
 
         // Deserialize error and poseStd from the payload
-        std::memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
-        std::memcpy(&poseStd, &data[4], sizeof(pose2d_t));
+        memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
+        memcpy(&poseStd, &data[4], sizeof(pose2d_t));
     }
 
     sfeTkError_t getError() const { return errorResponse; }
@@ -337,8 +367,8 @@ class GetVelocityRequest : public Request {
             throw std::runtime_error("Invalid payload length");
 
         // Deserialize error and velocity from the payload
-        std::memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
-        std::memcpy(&velocity, &data[4], sizeof(pose2d_t));
+        memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
+        memcpy(&velocity, &data[4], sizeof(pose2d_t));
     }
 
     sfeTkError_t getError() const { return errorResponse; }
@@ -368,8 +398,8 @@ class GetVelocityStdRequest : public Request {
             throw std::runtime_error("Invalid payload length");
 
         // Deserialize error and velocityStd from the payload
-        std::memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
-        std::memcpy(&velocityStd, &data[4], sizeof(pose2d_t));
+        memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
+        memcpy(&velocityStd, &data[4], sizeof(pose2d_t));
     }
 
     sfeTkError_t getError() const { return errorResponse; }
@@ -399,8 +429,8 @@ class GetAccelerationRequest : public Request {
             throw std::runtime_error("Invalid payload length");
 
         // Deserialize error and acceleration from the payload
-        std::memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
-        std::memcpy(&acceleration, &data[4], sizeof(pose2d_t));
+        memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
+        memcpy(&acceleration, &data[4], sizeof(pose2d_t));
     }
 
     sfeTkError_t getError() const { return errorResponse; }
@@ -430,8 +460,8 @@ class GetAccelerationStdRequest : public Request {
             throw std::runtime_error("Invalid payload length");
 
         // Deserialize error and accelerationStd from the payload
-        std::memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
-        std::memcpy(&accelerationStd, &data[4], sizeof(pose2d_t));
+        memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
+        memcpy(&accelerationStd, &data[4], sizeof(pose2d_t));
     }
 
     sfeTkError_t getError() const { return errorResponse; }
@@ -467,10 +497,10 @@ class GetPosVelAccRequest : public Request {
             throw std::runtime_error("Invalid payload length");
 
         // Deserialize error, pose, velocity, and acceleration from the payload
-        std::memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
-        std::memcpy(&pose, &data[4], sizeof(pose2d_t));
-        std::memcpy(&velocity, &data[16], sizeof(pose2d_t));
-        std::memcpy(&acceleration, &data[28], sizeof(pose2d_t));
+        memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
+        memcpy(&pose, &data[4], sizeof(pose2d_t));
+        memcpy(&velocity, &data[16], sizeof(pose2d_t));
+        memcpy(&acceleration, &data[28], sizeof(pose2d_t));
     }
 
     sfeTkError_t getError() const { return errorResponse; }
@@ -509,10 +539,10 @@ class GetPosVelAccStdRequest : public Request {
 
         // Deserialize error, poseStd, velocityStd, and accelerationStd from the
         // payload
-        std::memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
-        std::memcpy(&poseStd, &data[4], sizeof(pose2d_t));
-        std::memcpy(&velocityStd, &data[16], sizeof(pose2d_t));
-        std::memcpy(&accelerationStd, &data[28], sizeof(pose2d_t));
+        memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
+        memcpy(&poseStd, &data[4], sizeof(pose2d_t));
+        memcpy(&velocityStd, &data[16], sizeof(pose2d_t));
+        memcpy(&accelerationStd, &data[28], sizeof(pose2d_t));
     }
 
     sfeTkError_t getError() const { return errorResponse; }
@@ -557,13 +587,13 @@ class GetPosVelAccAndStdRequest : public Request {
 
         // Deserialize error, pose, velocity, acceleration, poseStd,
         // velocityStd, and accelerationStd from the payload
-        std::memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
-        std::memcpy(&pose, &data[4], sizeof(pose2d_t));
-        std::memcpy(&velocity, &data[16], sizeof(pose2d_t));
-        std::memcpy(&acceleration, &data[28], sizeof(pose2d_t));
-        std::memcpy(&poseStd, &data[40], sizeof(pose2d_t));
-        std::memcpy(&velocityStd, &data[52], sizeof(pose2d_t));
-        std::memcpy(&accelerationStd, &data[64], sizeof(pose2d_t));
+        memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
+        memcpy(&pose, &data[4], sizeof(pose2d_t));
+        memcpy(&velocity, &data[16], sizeof(pose2d_t));
+        memcpy(&acceleration, &data[28], sizeof(pose2d_t));
+        memcpy(&poseStd, &data[40], sizeof(pose2d_t));
+        memcpy(&velocityStd, &data[52], sizeof(pose2d_t));
+        memcpy(&accelerationStd, &data[64], sizeof(pose2d_t));
     }
 
     sfeTkError_t getError() const { return errorResponse; }

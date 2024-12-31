@@ -44,6 +44,15 @@ enum RPCCommandID {
  */
 // uint8_t SerialPrintPayload(uint8_t *string);
 
+/// @brief 2D pose structure, compatible with Lem and OTOS
+struct pose2d_t {
+    float x;
+    float y;
+    float theta;
+};
+
+#ifndef OTOS_DEFINITIONS_PRESENT
+
 /**
  * General Concept
  *    A SparkFun Toolkit error system. The goal is to keep this simple.
@@ -89,11 +98,6 @@ typedef union {
     uint8_t value;
 } sfe_otos_status_t;
 
-/// @brief 2D pose structure, compatible with Lem and OTOS
-struct pose2d_t {
-    float x;
-    float y;
-    float theta;
-};
+#endif // OTOS_DEFINITIONS_PRESENT
 
 #endif // PROTOCOL_DEFINITIONS_HPP

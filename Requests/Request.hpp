@@ -70,14 +70,14 @@ class Request {
   public:
     explicit Request(uint8_t uuid) : UUID(uuid) {}
 
-    virtual uint8_t getCommandID() const = 0; // Each command overrides this
-    virtual std::vector<uint8_t> serializeRequest() const = 0; // Serialize
-                                                               // parameters
-                                                               // into a payload
-    virtual void
-    deserializeResponse(const std::vector<uint8_t> &data) = 0; // Populate
-                                                               // fields from a
-                                                               // payload
+    // Each command overrides this
+    virtual uint8_t getCommandID() const = 0;
+
+    // Serialize parameters into a payload
+    virtual std::vector<uint8_t> serializeRequest() const = 0;
+
+    // Populate fields from a payload
+    virtual void deserializeResponse(const std::vector<uint8_t> &data) = 0;
 
     virtual ~Request() = default;
 };

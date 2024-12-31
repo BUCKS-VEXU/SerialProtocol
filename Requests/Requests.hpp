@@ -33,7 +33,7 @@ class SerialPrintPayloadRequest : public Request {
         if (data.size() < sizeof(uint8_t))
             throw std::runtime_error("Invalid payload length");
 
-        // Deserialize the payload
+        // "Deserialize" the payload
         bytesPrinted = data[0];
     }
 
@@ -60,7 +60,7 @@ class IsConnectedRequest : public Request {
         if (data.size() < sizeof(sfeTkError_t))
             throw std::runtime_error("Invalid payload length");
 
-        // Deserialize the connected field
+        // Deserialize the error field
         memcpy(&errorResponse, &data[0], sizeof(sfeTkError_t));
     }
 

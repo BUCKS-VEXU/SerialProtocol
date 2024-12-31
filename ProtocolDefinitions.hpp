@@ -8,6 +8,22 @@
 #define START_MARKER 0x7E
 #define END_MARKER 0x7F
 
+struct SerialRequest {
+    uint8_t UUID;
+    uint8_t commandID;
+    uint8_t payloadLength;
+    uint8_t *payload;
+    uint8_t checksum;
+};
+
+struct SerialResponse {
+    uint8_t UUID;
+    uint8_t commandID;
+    uint8_t payloadLength;
+    uint8_t *payload;
+    uint8_t checksum;
+};
+
 enum RPCCommandID {
     PING = 0x00,
     SERIAL_PRINT_PAYLOAD = 0xFF,

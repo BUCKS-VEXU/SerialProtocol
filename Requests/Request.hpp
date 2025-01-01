@@ -77,7 +77,8 @@ class Request {
     virtual std::vector<uint8_t> serializeRequest() const = 0;
 
     // Populate fields from a payload
-    virtual void deserializeResponse(const std::vector<uint8_t> &data) = 0;
+    virtual void
+    deserializeResponsePayload(const std::vector<uint8_t> &data) = 0;
 
     virtual ~Request() = default;
 };

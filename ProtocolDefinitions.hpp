@@ -4,6 +4,8 @@
 #define PROTOCOL_DEFINITIONS_HPP
 
 #include <cstdint>
+#include <memory>
+#include <vector>
 
 #define START_MARKER 0x7E
 #define END_MARKER 0x7F
@@ -20,7 +22,7 @@ struct SerialResponse {
     uint8_t UUID;
     uint8_t commandID;
     uint8_t payloadLength;
-    uint8_t *payload;
+    std::shared_ptr<std::vector<uint8_t>> payload;
     uint8_t checksum;
 };
 

@@ -68,8 +68,7 @@ class Request {
     }
 
   public:
-    explicit Request(uint8_t uuid) : UUID(uuid) {}
-
+    void setUUID(uint8_t uuid) { UUID = uuid; }
     uint8_t getUUID() const { return UUID; }
 
     // Each command overrides this

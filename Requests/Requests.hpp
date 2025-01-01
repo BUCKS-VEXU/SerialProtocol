@@ -24,8 +24,7 @@ class PingRequest : public Request {
     uint8_t pingResponse;
 
   public:
-    PingRequest(uint8_t uuid, uint8_t pingByte) :
-        Request(uuid), pingByte(pingByte), pingResponse(0) {}
+    PingRequest(uint8_t pingByte) : pingByte(pingByte), pingResponse(0) {}
 
     uint8_t getCommandID() const override { return PING; }
 
@@ -54,9 +53,8 @@ class SerialPrintPayloadRequest : public Request {
     uint8_t bytesPrinted;
 
   public:
-    SerialPrintPayloadRequest(uint8_t uuid,
-                              const std::vector<uint8_t> &payload) :
-        Request(uuid), payload(payload) {}
+    SerialPrintPayloadRequest(const std::vector<uint8_t> &payload) :
+        payload(payload) {}
 
     uint8_t getCommandID() const override { return SERIAL_PRINT_PAYLOAD; }
 
@@ -84,7 +82,7 @@ class IsConnectedRequest : public Request {
     sfeTkError_t errorResponse;
 
   public:
-    IsConnectedRequest(uint8_t uuid) : Request(uuid), errorResponse(0) {}
+    IsConnectedRequest() : errorResponse(0) {}
 
     uint8_t getCommandID() const override { return IS_CONNECTED; }
 
@@ -114,8 +112,8 @@ class CalibrateIMURequest : public Request {
     sfeTkError_t errorResponse;
 
   public:
-    CalibrateIMURequest(uint8_t uuid, uint8_t numSamples, bool waitUntilDone) :
-        Request(uuid), errorResponse(0) {}
+    CalibrateIMURequest(uint8_t numSamples, bool waitUntilDone) :
+        errorResponse(0) {}
 
     uint8_t getCommandID() const override { return CALIBRATE_IMU; }
 
@@ -145,8 +143,7 @@ class GetIMUCalibrationProgressRequest : public Request {
     uint8_t progress;
 
   public:
-    GetIMUCalibrationProgressRequest(uint8_t uuid) :
-        Request(uuid), errorResponse(0), progress(0) {}
+    GetIMUCalibrationProgressRequest() : errorResponse(0), progress(0) {}
 
     uint8_t getCommandID() const override {
         return GET_IMU_CALIBRATION_PROGRESS;
@@ -178,7 +175,7 @@ class ResetTrackingRequest : public Request {
     sfeTkError_t errorResponse;
 
   public:
-    ResetTrackingRequest(uint8_t uuid) : Request(uuid), errorResponse(0) {}
+    ResetTrackingRequest() : errorResponse(0) {}
 
     uint8_t getCommandID() const override { return RESET_TRACKING; }
 
@@ -207,8 +204,7 @@ class GetStatusRequest : public Request {
     sfe_otos_status_t status;
 
   public:
-    GetStatusRequest(uint8_t uuid) :
-        Request(uuid), errorResponse(0), status({0}) {}
+    GetStatusRequest() : errorResponse(0), status({0}) {}
 
     uint8_t getCommandID() const override { return GET_STATUS; }
 
@@ -239,8 +235,7 @@ class GetOffsetRequest : public Request {
     pose2d_t offset;
 
   public:
-    GetOffsetRequest(uint8_t uuid) :
-        Request(uuid), errorResponse(0), offset({0, 0, 0}) {}
+    GetOffsetRequest() : errorResponse(0), offset({0, 0, 0}) {}
 
     uint8_t getCommandID() const override { return GET_OFFSET; }
 
@@ -271,8 +266,7 @@ class SetOffsetRequest : public Request {
     sfeTkError_t errorResponse;
 
   public:
-    SetOffsetRequest(uint8_t uuid, pose2d_t offset) :
-        Request(uuid), offset(offset), errorResponse(0) {}
+    SetOffsetRequest(pose2d_t offset) : offset(offset), errorResponse(0) {}
 
     uint8_t getCommandID() const override { return SET_OFFSET; }
 
@@ -304,8 +298,7 @@ class GetPoseRequest : public Request {
     pose2d_t pose;
 
   public:
-    GetPoseRequest(uint8_t uuid) :
-        Request(uuid), errorResponse(0), pose({0, 0, 0}) {}
+    GetPoseRequest() : errorResponse(0), pose({0, 0, 0}) {}
 
     uint8_t getCommandID() const override { return GET_POSE; }
 
@@ -336,8 +329,7 @@ class GetPoseStdRequest : public Request {
     pose2d_t poseStd;
 
   public:
-    GetPoseStdRequest(uint8_t uuid) :
-        Request(uuid), errorResponse(0), poseStd({0, 0, 0}) {}
+    GetPoseStdRequest() : errorResponse(0), poseStd({0, 0, 0}) {}
 
     uint8_t getCommandID() const override { return GET_POSE_STD; }
 
@@ -368,8 +360,7 @@ class GetVelocityRequest : public Request {
     pose2d_t velocity;
 
   public:
-    GetVelocityRequest(uint8_t uuid) :
-        Request(uuid), errorResponse(0), velocity({0, 0, 0}) {}
+    GetVelocityRequest() : errorResponse(0), velocity({0, 0, 0}) {}
 
     uint8_t getCommandID() const override { return GET_VELOCITY; }
 
@@ -400,8 +391,7 @@ class GetVelocityStdRequest : public Request {
     pose2d_t velocityStd;
 
   public:
-    GetVelocityStdRequest(uint8_t uuid) :
-        Request(uuid), errorResponse(0), velocityStd({0, 0, 0}) {}
+    GetVelocityStdRequest() : errorResponse(0), velocityStd({0, 0, 0}) {}
 
     uint8_t getCommandID() const override { return GET_VELOCITY_STD; }
 
@@ -432,8 +422,7 @@ class GetAccelerationRequest : public Request {
     pose2d_t acceleration;
 
   public:
-    GetAccelerationRequest(uint8_t uuid) :
-        Request(uuid), errorResponse(0), acceleration({0, 0, 0}) {}
+    GetAccelerationRequest() : errorResponse(0), acceleration({0, 0, 0}) {}
 
     uint8_t getCommandID() const override { return GET_ACCELERATION; }
 
@@ -464,8 +453,8 @@ class GetAccelerationStdRequest : public Request {
     pose2d_t accelerationStd;
 
   public:
-    GetAccelerationStdRequest(uint8_t uuid) :
-        Request(uuid), errorResponse(0), accelerationStd({0, 0, 0}) {}
+    GetAccelerationStdRequest() :
+        errorResponse(0), accelerationStd({0, 0, 0}) {}
 
     uint8_t getCommandID() const override { return GET_ACCELERATION_STD; }
 
@@ -498,8 +487,8 @@ class GetPosVelAccRequest : public Request {
     pose2d_t acceleration;
 
   public:
-    GetPosVelAccRequest(uint8_t uuid) :
-        Request(uuid),
+    GetPosVelAccRequest() :
+
         errorResponse(0),
         pose({0, 0, 0}),
         velocity({0, 0, 0}),
@@ -540,8 +529,8 @@ class GetPosVelAccStdRequest : public Request {
     pose2d_t accelerationStd;
 
   public:
-    GetPosVelAccStdRequest(uint8_t uuid) :
-        Request(uuid),
+    GetPosVelAccStdRequest() :
+
         errorResponse(0),
         poseStd({0, 0, 0}),
         velocityStd({0, 0, 0}),
@@ -586,8 +575,8 @@ class GetPosVelAccAndStdRequest : public Request {
     pose2d_t accelerationStd;
 
   public:
-    GetPosVelAccAndStdRequest(uint8_t uuid) :
-        Request(uuid),
+    GetPosVelAccAndStdRequest() :
+
         errorResponse(0),
         pose({0, 0, 0}),
         velocity({0, 0, 0}),

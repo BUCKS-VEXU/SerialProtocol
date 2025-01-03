@@ -10,11 +10,13 @@
 #define START_MARKER 0x7E
 #define END_MARKER 0x7F
 
+typedef std::shared_ptr<std::vector<uint8_t>> payload_t;
+
 struct SerialRequest {
     uint8_t UUID;
     uint8_t commandID;
     uint8_t payloadLength;
-    uint8_t *payload;
+    payload_t payload;
     uint8_t checksum;
 };
 
@@ -22,7 +24,7 @@ struct SerialResponse {
     uint8_t UUID;
     uint8_t commandID;
     uint8_t payloadLength;
-    std::shared_ptr<std::vector<uint8_t>> payload;
+    payload_t payload;
     uint8_t checksum;
 };
 

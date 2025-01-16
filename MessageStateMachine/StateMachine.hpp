@@ -20,27 +20,27 @@ class StateMachine {
     State currentState = STATE_IDLE;
 
     size_t bufferSize;
-    uint8_t *buffer; // Buffer to hold incoming message
+    uint8_t *payloadBuffer; // Buffer to hold incoming message
     size_t bufferIndex = 0;
 
     uint8_t UUID = 0;
     uint8_t commandID = 0;
     uint8_t payloadLength = 0;
-    uint8_t checksum = 0;
 
+    uint8_t checksum = 0;
     uint8_t calculatedChecksum = 0;
 
     // ! These should be implemented by the extending state machine
     virtual void onChecksumFail() const = 0;
-    virtual void onMissingStartMarker() const = 0;
-    virtual void onMissingEndMarker() const = 0;
+    virtual void onMissingStartMarker(uint8_t byte) const = 0;
+    virtual void onMissingEndMarker(uint8_t byte) const = 0;
     virtual void onMessageComplete() const = 0;
 
   public:
     StateMachine(size_t bufferSize) : bufferSize(bufferSize) {
-        buffer = new uint8_t[bufferSize];
+        payloadBuffer = new uint8_t[bufferSize];
     }
-    ~StateMachine() { delete[] buffer; }
+    ~StateMachine() { delete[] payloadBuffer; }
 
     inline State getCurrentState() { return currentState; }
 
@@ -61,7 +61,7 @@ class StateMachine {
             if (byte == START_MARKER) {
                 currentState = STATE_UUID;
             } else {
-                onMissingStartMarker();
+                onMissingStartMarker(byte);
             }
             break;
 
@@ -84,7 +84,7 @@ class StateMachine {
             break;
 
         case STATE_PAYLOAD:
-            buffer[bufferIndex++] = byte;
+            payloadBuffer[bufferIndex++] = byte;
             calculatedChecksum += byte;
 
             if (bufferIndex == payloadLength) {
@@ -106,7 +106,7 @@ class StateMachine {
 
         case STATE_COMPLETE:
             if (byte != END_MARKER) {
-                onMissingEndMarker();
+                onMissingEndMarker(byte);
                 this->reset();
                 return;
             }

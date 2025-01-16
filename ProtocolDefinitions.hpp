@@ -30,7 +30,7 @@ struct SerialResponse {
 
 enum RPCCommandID {
     PING = 0x00,
-    SERIAL_PRINT_PAYLOAD = 0xFF,
+    SERIAL_PRINT_PAYLOAD = 0x20,
 
     IS_CONNECTED = 0x01,
 
@@ -54,6 +54,14 @@ enum RPCCommandID {
     GET_POS_VEL_ACC = 0x0E,
     GET_POS_VEL_ACC_STD = 0x0F,
     GET_POS_VEL_ACC_AND_STD = 0x10,
+
+    // ! Not a command, used to indicate errors
+    ERROR = 0xFF
+};
+
+//? Should these be specified
+enum ErrorCodes {
+    MISSING_EXPECTED_END_MARKER,
 };
 
 /**

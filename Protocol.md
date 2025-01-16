@@ -1,6 +1,7 @@
 # V5 Brain ESP32 Serial Protocol
+# Message Structure
 
-## Request Structure
+## Request
 
 | **Index** | **Length**  | **Description**                                |
 |-----------|-------------|-----------------------------------------------|
@@ -12,7 +13,7 @@
 | 4+n       | 1           | **Checksum:** Used for transmission error catching |
 | 5+n       | 1           | **End Marker (0x7E):** Ends a request         |
 
-## Response Structure
+## Response
 
 | **Index** | **Length**  | **Description**                                |
 |-----------|-------------|-----------------------------------------------|
@@ -23,3 +24,8 @@
 | 4         | n           | **Payload:** The data returned by the executed command |
 | 4+n       | 1           | **Checksum:** Used for transmission error catching |
 | 5+n       | 1           | **End Marker (0x7E):** Ends a response        |
+
+# Errors
+A Command ID of 0xFF indicates that an error has occurred. An error code will be specified in the payload
+
+<!-- TODO need some way to indicate a checksum error on the Client, currently it just sends nothing back  -->

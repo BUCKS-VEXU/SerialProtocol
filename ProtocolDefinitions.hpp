@@ -60,8 +60,9 @@ enum RPCCommandID {
 };
 
 //? Should these be specified
-enum ErrorCodes {
+enum ErrorCode {
     MISSING_EXPECTED_END_MARKER,
+    UNDEFINED_COMMAND_ID,
 };
 
 /**

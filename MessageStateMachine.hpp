@@ -3,7 +3,7 @@
 #include <cstddef>
 #include <cstdint>
 
-#include "../ProtocolDefinitions.hpp"
+#include "ProtocolDefinitions.hpp"
 
 enum State {
     STATE_IDLE,

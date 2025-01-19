@@ -15,7 +15,7 @@ enum State {
     STATE_COMPLETE
 };
 
-class StateMachine {
+class MessageStateMachine {
   protected:
     State currentState = STATE_IDLE;
 
@@ -37,10 +37,10 @@ class StateMachine {
     virtual void onMessageComplete() const = 0;
 
   public:
-    StateMachine(size_t bufferSize) : bufferSize(bufferSize) {
+    MessageStateMachine(size_t bufferSize) : bufferSize(bufferSize) {
         payloadBuffer = new uint8_t[bufferSize];
     }
-    ~StateMachine() { delete[] payloadBuffer; }
+    ~MessageStateMachine() { delete[] payloadBuffer; }
 
     inline State getCurrentState() { return currentState; }
 

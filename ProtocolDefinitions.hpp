@@ -82,6 +82,22 @@ struct pose2d_t {
     float theta;
 };
 
+namespace lemlib {
+struct Pose {
+    float x;
+    float y;
+    float theta;
+};
+} // namespace lemlib
+
+inline lemlib::Pose &reinterpret_as_lemlib_pose(pose2d_t &pose) {
+    return *reinterpret_cast<lemlib::Pose *>(&pose);
+}
+
+inline const lemlib::Pose &reinterpret_as_lemlib_pose(const pose2d_t &pose) {
+    return *reinterpret_cast<const lemlib::Pose *>(&pose);
+}
+
 #ifndef OTOS_DEFINITIONS_PRESENT
 
 /**

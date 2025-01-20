@@ -11,6 +11,10 @@
 
 #include "../ProtocolDefinitions.hpp"
 
+// !
+// TODO Errors should not be passed back, rather if there is an error, the error
+// command should be sent back
+
 #ifdef OTOS_DEFINITIONS_PRESENT
 #include "SparkFun_Qwiic_OTOS_Arduino_Library.h"
 #endif // OTOS_DEFINITIONS_PRESENT
@@ -165,6 +169,37 @@ class GetIMUCalibrationProgressRequest : public Request {
 
     sfeTkError_t getError() const { return errorResponse; }
     uint8_t getProgress() const { return progress; }
+};
+
+class SetPoseRequest : public Request {
+  private:
+    // Request-specific parameters (input or response fields)
+    pose2d_t pose;
+
+    // Response
+    sfeTkError_t errorResponse;
+
+  public:
+    SetPoseRequest(pose2d_t pose) : pose(pose), errorResponse(0) {}
+
+    uint8_t getCommandID() const override { return SET_POSE; }
+
+    std::vector<uint8_t> serializeRequest() const override {
+        return createSerializedMessage(SET_POSE,
+                                       reinterpret_cast<const uint8_t *>(&pose),
+                                       sizeof(pose2d_t));
+    }
+
+    void
+    deserializeResponsePayload(const std::vector<uint8_t> &payload) override {
+        if (payload.size() < sizeof(sfeTkError_t))
+            throw std::runtime_error("Invalid payload length");
+
+        // Deserialize the error field
+        memcpy(&errorResponse, &payload[0], sizeof(sfeTkError_t));
+    }
+
+    sfeTkError_t getError() const { return errorResponse; }
 };
 
 class ResetTrackingRequest : public Request {

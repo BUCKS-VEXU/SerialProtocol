@@ -55,6 +55,8 @@ enum RPCCommandID {
     GET_POS_VEL_ACC_STD = 0x0F,
     GET_POS_VEL_ACC_AND_STD = 0x10,
 
+    SET_POSE = 0x11,
+
     // ! Not a command, used to indicate errors
     ERROR = 0xFF
 };

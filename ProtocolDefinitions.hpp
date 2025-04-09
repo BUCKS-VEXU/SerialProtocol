@@ -57,6 +57,9 @@ enum RPCCommandID {
 
     SET_POSE = 0x11,
 
+    // ! Not a command, used to indicate connection to the coprocessor
+    COPRO_CONNECTED = 0xFE,
+
     // ! Not a command, used to indicate errors
     ERROR = 0xFF
 };

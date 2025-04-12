@@ -110,13 +110,13 @@ class CalibrateIMURequest : public Request {
   private:
     // Request-specific parameters (input or response fields)
     uint8_t numSamples;
-    bool waitUntilDone;
+    uint8_t waitUntilDone;
 
     // Response
     sfeTkError_t errorResponse;
 
   public:
-    CalibrateIMURequest(uint8_t numSamples, bool waitUntilDone) :
+    CalibrateIMURequest(uint8_t numSamples, uint8_t waitUntilDone) :
         errorResponse(0) {}
 
     uint8_t getCommandID() const override { return CALIBRATE_IMU; }

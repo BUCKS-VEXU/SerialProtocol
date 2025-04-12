@@ -202,6 +202,70 @@ class SetPoseRequest : public Request {
     sfeTkError_t getError() const { return errorResponse; }
 };
 
+class SetLinearScalarRequest : public Request {
+  private:
+    // Request-specific parameters (input or response fields)
+    float scalar;
+
+    // Response
+    sfeTkError_t errorResponse;
+
+  public:
+    SetLinearScalarRequest(float scalar) : scalar(scalar) {}
+
+    uint8_t getCommandID() const override { return SET_LINEAR_SCALAR; }
+
+    std::vector<uint8_t> serializeRequest() const override {
+        return createSerializedMessage(
+            SET_LINEAR_SCALAR,
+            reinterpret_cast<const uint8_t *>(&scalar),
+            sizeof(float));
+    }
+
+    void
+    deserializeResponsePayload(const std::vector<uint8_t> &payload) override {
+        if (payload.size() < sizeof(sfeTkError_t))
+            throw std::runtime_error("Invalid payload length");
+
+        // Deserialize the ping response
+        memcpy(&errorResponse, &payload[0], sizeof(sfeTkError_t));
+    }
+
+    sfeTkError_t getError() const { return errorResponse; }
+};
+
+class SetAngularScalarRequest : public Request {
+  private:
+    // Request-specific parameters (input or response fields)
+    float scalar;
+
+    // Response
+    sfeTkError_t errorResponse;
+
+  public:
+    SetAngularScalarRequest(float scalar) : scalar(scalar) {}
+
+    uint8_t getCommandID() const override { return SET_ANGULAR_SCALAR; }
+
+    std::vector<uint8_t> serializeRequest() const override {
+        return createSerializedMessage(
+            SET_ANGULAR_SCALAR,
+            reinterpret_cast<const uint8_t *>(&scalar),
+            sizeof(float));
+    }
+
+    void
+    deserializeResponsePayload(const std::vector<uint8_t> &payload) override {
+        if (payload.size() < sizeof(sfeTkError_t))
+            throw std::runtime_error("Invalid payload length");
+
+        // Deserialize the ping response
+        memcpy(&errorResponse, &payload[0], sizeof(sfeTkError_t));
+    }
+
+    sfeTkError_t getError() const { return errorResponse; }
+};
+
 class ResetTrackingRequest : public Request {
   private:
     // Request-specific parameters (input or response fields)

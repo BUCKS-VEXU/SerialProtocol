@@ -28,34 +28,37 @@ struct SerialResponse {
     uint8_t checksum;
 };
 
+/**
+ * 0x00 - 0x0F: Commands
+ * 0x10 - 0x1F: OTOS Configuration
+ * 0x20 - 0x2F: OTOS Pose Commands
+ *
+ * 0xF0 - 0xFF: Special Messages
+ */
 enum RPCCommandID {
     PING = 0x00,
-    SERIAL_PRINT_PAYLOAD = 0x20,
+    SERIAL_PRINT_PAYLOAD = 0x01,
+    IS_CONNECTED = 0x02,
 
-    IS_CONNECTED = 0x01,
-
-    CALIBRATE_IMU = 0x02,
-    GET_IMU_CALIBRATION_PROGRESS = 0x03,
-    RESET_TRACKING = 0x04,
-    GET_STATUS = 0x05,
-
-    GET_OFFSET = 0x06,
-    SET_OFFSET = 0x07,
-
-    GET_POSE = 0x08,
-    GET_POSE_STD = 0x09,
-
-    GET_VELOCITY = 0x0A,
-    GET_VELOCITY_STD = 0x0B,
-
-    GET_ACCELERATION = 0x0C,
-    GET_ACCELERATION_STD = 0x0D,
-
-    GET_POS_VEL_ACC = 0x0E,
-    GET_POS_VEL_ACC_STD = 0x0F,
-    GET_POS_VEL_ACC_AND_STD = 0x10,
-
+    CALIBRATE_IMU = 0x10,
+    GET_IMU_CALIBRATION_PROGRESS = 0x11,
+    RESET_TRACKING = 0x12,
+    GET_STATUS = 0x13,
     SET_POSE = 0x11,
+    GET_OFFSET = 0x14,
+    SET_OFFSET = 0x15,
+    SET_LINEAR_SCALAR = 0x16,
+    SET_ANGULAR_SCALAR = 0x17,
+
+    GET_POSE = 0x20,
+    GET_POSE_STD = 0x21,
+    GET_VELOCITY = 0x22,
+    GET_VELOCITY_STD = 0x23,
+    GET_ACCELERATION = 0x24,
+    GET_ACCELERATION_STD = 0x25,
+    GET_POS_VEL_ACC = 0x26,
+    GET_POS_VEL_ACC_STD = 0x27,
+    GET_POS_VEL_ACC_AND_STD = 0x28,
 
     // ! Not a command, used to indicate connection to the coprocessor
     COPRO_CONNECTED = 0xFE,
